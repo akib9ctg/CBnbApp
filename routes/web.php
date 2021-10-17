@@ -18,5 +18,5 @@ $router->get('/', function () use ($router) {
 });
 $router->group(['prefix' => 'api'], function () use ($router) {
     $router->get('bnb/showAllProperties',  ['uses' => 'BnbController@showAllProperties']);
-    $router->get('bnb/notAvailableAction/{property_id}/{status}',  ['uses' => 'BnbController@NotAvailableAction']);
+    $router->post('bnb/notAvailableAction/{property_id}/{status}',  ['uses' => 'BnbController@NotAvailableAction']);
   });
