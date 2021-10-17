@@ -28,7 +28,7 @@ class BnbController extends Controller
             return response()->json(['message' => 'invalid status'], 500);
         }
         //$result=DB::select("select * from properties where property_id="."$property_id");
-        $is_success=Properties::where('property_id', $property_id)->update(['status' => $updateText]);
+        $is_success=Properties::where('property_id', $property_id)->where('status','unsorted')->update(['status' => $updateText]);
         if($is_success==1){
             $event=new Events;
             $event->username =$request->username;
