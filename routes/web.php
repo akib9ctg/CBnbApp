@@ -19,4 +19,6 @@ $router->get('/', function () use ($router) {
 $router->group(['prefix' => 'api'], function () use ($router) {
     $router->get('bnb/showAllProperties',  ['uses' => 'BnbController@showAllProperties']);
     $router->post('bnb/notAvailableAction/{property_id}/{status}',  ['uses' => 'BnbController@NotAvailableAction']);
+    $router->get('bnb/getTagByPropertyId/{property_id}',  ['uses' => 'BnbController@getTagByPropertyId']);
+    $router->post('bnb/revenueAvailableAction/{property_id}',  ['uses' => 'BnbController@revenueAvailableAction']);
   });

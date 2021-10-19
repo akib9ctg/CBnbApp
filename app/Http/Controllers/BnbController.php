@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Cities;
 use App\Models\Events;
 use App\Models\Properties;
+use App\Models\Tags;
+use App\Models\PropertiesTags;
 use Illuminate\Http\Request;
 use DB;
 use Carbon\Carbon;
@@ -41,10 +43,54 @@ class BnbController extends Controller
         }
         return response()->json(['message' => 'not successful'], 200);
     }
+    public function getTagByPropertyId($property_id){
+        $result = DB::table('properties_tags')
+        ->join('tags', 'properties_tags.tag_id', '=', 'tags.tag_id')
+        ->select('tags.tag_id','tags.tag')
+        ->where('properties_tags.property_id', '=', $property_id)
+        ->get();
+        return response()->json($result);
+    }
 
+    public function revenueAvailableAction(Request $request,$property_id)
+    {
+        $is_success=Properties::where('property_id', $property_id)->where('status','unsorted')->
+                update(['status' => 'confirmed', 
+                'revenue_period'=>$request->revenue_period,
+                'prop_type'=>$request->prop_type,
+                'revenue'=>$request->revenue,
+                'description'=>$request->description
+            ]);
+        if($is_success==1)
+        {
+            $re=Events::where('property_id', $property_id)->update(['event_type' => 'confirmed']);
+            $tagArray=$request->property_tags;
+            
+            foreach ( $tagArray as $index => $item){
+                if($item['id']==null){
+                    $tag =new Tags;
+                    $tag->tag=$item['tag'];
+                    $tag->save();
+                    $tagArray[$index]['id']=$tag->id;
+                }
+                
+            }
+            $deleted = PropertiesTags::where('property_id', $property_id)->delete();
+            
+            foreach($tagArray as $item)
+            {
+                $propertiesTag=new PropertiesTags;
+                $propertiesTag->property_id=$property_id;
+                $propertiesTag->tag_id=$item['id'];
+                $propertiesTag->save();
+            }
+            return response()->json(['message' => 'successful'], 200);
+           
 
-
-
+        }
+        return response()->json(['message' => 'not successful'], 200);
+    }
+        
     // public function showAllProperties()
     // {
     //     //$result=Properties::all();
