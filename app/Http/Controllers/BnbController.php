@@ -63,7 +63,13 @@ class BnbController extends Controller
             ]);
         if($is_success==1)
         {
-            $re=Events::where('property_id', $property_id)->update(['event_type' => 'confirmed']);
+            $event=new Events;
+            $event->username =$request->username;
+            $event->property_id =$property_id;
+            $event->event_type =$request->event_type;
+            $event->source_page =$request->source_page;
+            $event->datetime= strtotime(Carbon::now());
+            $event->save();
             $tagArray=$request->property_tags;
             
             foreach ( $tagArray as $index => $item){
