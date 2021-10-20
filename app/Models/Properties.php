@@ -13,6 +13,7 @@ class Properties extends Model
      * @var array
      */
     public $timestamps = false;
+    protected  $primaryKey = 'property_id';
     protected $fillable = [
         'status','property_id','updated_at'
     ];
