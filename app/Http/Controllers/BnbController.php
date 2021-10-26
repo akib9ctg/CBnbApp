@@ -37,8 +37,10 @@ class BnbController extends Controller
         $eventAttributes=array_keys($request->events);
         $property_id=$request->property['property_id'];
         
-        $property= Properties::find($request->property['property_id']);
-
+        $property= Properties::where('property_id',$request->property['property_id'])->where('status','unsorted')->first();
+        if(is_null($property)){
+            return response()->json(['message' => 'unsuccessful'], 410);
+        }
         foreach($propertyAttributes as $item){
             $property->$item =$request->property[$item];
         }

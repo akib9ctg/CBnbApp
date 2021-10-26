@@ -20,8 +20,11 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->get('bnb/getAllProperties/{limit}',  ['uses' => 'BnbController@getAllProperties']);
     $router->get('bnb/getPropertyById/{property_id}',  ['uses' => 'BnbController@getPropertyById']);
     $router->post('bnb/operationFromApp',  ['uses' => 'BnbController@operationFromApp']);
-    // $router->post('bnb/notAvailableAction/{property_id}/{status}',  ['uses' => 'BnbController@NotAvailableAction']);
-    // $router->get('bnb/getTagByPropertyId/{property_id}',  ['uses' => 'BnbController@getTagByPropertyId']);
+    $router->post('user/addNewUser',  ['uses' => 'UserController@addNewUser']);
+    $router->post('user/updateUser',  ['uses' => 'UserController@updateUser']);
+    $router->post('user/loginUser',  ['uses' => 'UserController@loginUser']);
     // $router->post('bnb/revenueAvailableAction/{property_id}',  ['uses' => 'BnbController@revenueAvailableAction']);
-
+    // $router->get('/key', function() {
+    //     return \Illuminate\Support\Str::random(32);
+    // });
   });
