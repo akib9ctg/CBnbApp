@@ -54,7 +54,7 @@ class UserController extends Controller
             return response()->json(['message' => 'unsuccessful'], 401);
         }
     }
-    public function getUserByEmail($id)
+    public function getUserById($id)
     {
         $user =Users::find($id);
         return response()->json($user);
