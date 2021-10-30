@@ -23,6 +23,8 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('user/addNewUser',  ['uses' => 'UserController@addNewUser']);
     $router->post('user/updateUser',  ['uses' => 'UserController@updateUser']);
     $router->post('user/loginUser',  ['uses' => 'UserController@loginUser']);
+    $router->get('user/getUserById/{id}',  ['uses' => 'UserController@getUserById']);
+    $router->get('user/getAllUser',  ['uses' => 'UserController@getAllUser']);
     // $router->post('bnb/revenueAvailableAction/{property_id}',  ['uses' => 'BnbController@revenueAvailableAction']);
     // $router->get('/key', function() {
     //     return \Illuminate\Support\Str::random(32);

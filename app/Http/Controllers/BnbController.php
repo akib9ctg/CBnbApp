@@ -59,12 +59,15 @@ class BnbController extends Controller
             
             //Insert new tag in Tag table. New tag will sent with Id null from client side.
             foreach ( $tagArray as $index => $item){
-                if($item['id']==null){
+                $temp=Tags::where('tag', $item['tag'])->first();
+                if(is_null($temp)){
                     $tag =new Tags;
                     $tag->tag=$item['tag'];
                     $tag->save();
                     $tagArray[$index]['id']=$tag->id;
+
                 }
+
             }
             //Delete all tag from Properties_tag table as TagArray have all previous Tags and newely added Tags.
             $deleted = PropertiesTags::where('property_id', $property_id)->delete();
