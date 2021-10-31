@@ -20,6 +20,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->get('bnb/getAllProperties/{limit}',  ['uses' => 'BnbController@getAllProperties']);
     $router->get('bnb/getPropertyById/{property_id}',  ['uses' => 'BnbController@getPropertyById']);
     $router->post('bnb/operationFromApp',  ['uses' => 'BnbController@operationFromApp']);
+    $router->get('bnb/getAllTags',  ['uses' => 'BnbController@getAllTags']);
     $router->post('user/addNewUser',  ['uses' => 'UserController@addNewUser']);
     $router->post('user/updateUser',  ['uses' => 'UserController@updateUser']);
     $router->post('user/loginUser',  ['uses' => 'UserController@loginUser']);
