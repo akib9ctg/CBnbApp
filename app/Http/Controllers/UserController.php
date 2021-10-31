@@ -35,7 +35,7 @@ class UserController extends Controller
         $user = Users::find($request->user_id);
         $userAttributes = array_keys($request->user);
         foreach($userAttributes as $item ){
-            $user->$item=$request->users[$item];
+            $user->$item=$request->user[$item];
         }
         $user->updated_at= strtotime(Carbon::now());
         $user->save();
