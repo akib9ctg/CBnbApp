@@ -66,6 +66,8 @@ class BnbController extends Controller
                     $tag->save();
                     $tagArray[$index]['id']=$tag->id;
 
+                }else{
+                    $tagArray[$index]['id']=$temp->tag_id;
                 }
 
             }
@@ -73,11 +75,11 @@ class BnbController extends Controller
             $deleted = PropertiesTags::where('property_id', $property_id)->delete();
             
             //Adding all tags in property_tags table
-            foreach($tagArray as $item)
+            foreach($tagArray as $index => $item)
             {
                 $propertiesTag=new PropertiesTags;
                 $propertiesTag->property_id=$property_id;
-                $propertiesTag->tag_id=$item['id'];
+                $propertiesTag->tag_id=$tagArray[$index]['id'];
                 $propertiesTag->save();
             }
         }
