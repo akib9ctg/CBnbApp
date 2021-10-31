@@ -15,7 +15,7 @@ class UserController extends Controller
         $userAttributes = array_keys($request->user);
         $result=Users::where('email',$request->user['email'])->count();
         if($result>0){
-            return response()->json(['message' => 'email already exist'], 200); 
+            return response()->json(['message' => 'email already exist'], 410); 
         }
         else{
             $user = new Users;
