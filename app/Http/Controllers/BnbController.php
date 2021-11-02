@@ -42,7 +42,11 @@ class BnbController extends Controller
             return response()->json(['message' => 'unsuccessful'], 410);
         }
         foreach($propertyAttributes as $item){
-            $property->$item =$request->property[$item];
+            $tempPropertyItem=$request->property[$item];
+            if($tempPropertyItem==""){
+                $tempPropertyItem=null;
+            }
+            $property->$item =$tempPropertyItem;
         }
         $property->save();
 
