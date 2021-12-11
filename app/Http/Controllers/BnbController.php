@@ -29,6 +29,13 @@ class BnbController extends Controller
         $data->property_tags=$tagValues->original;
         return response()->json($data);
     }
+     //Return property_id and property_address data by search property address search value
+     public function getAllPropertyByAddress(Request $request)
+     {
+        $property_address=$request['property_address'];
+        $result=DB::select("select property_id,address_line from properties where address_line like '%".$property_address."%' LIMIT 10");
+        return response()->json($result);
+     }
 
     //This is a common Endpoint, Data will insert based on the Client Object.
     public function operationFromApp(Request $request)
