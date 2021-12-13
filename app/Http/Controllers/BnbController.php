@@ -7,6 +7,8 @@ use App\Models\Events;
 use App\Models\Properties;
 use App\Models\Tags;
 use App\Models\PropertiesTags;
+use App\Models\ColdEmails;
+use App\Models\EmailInputEvents;
 use Illuminate\Http\Request;
 use DB;
 use Carbon\Carbon;
@@ -111,5 +113,26 @@ class BnbController extends Controller
         $result=DB::select("select * from tags");
         return response()->json($result);
     }
+    public function saveEmails(Request $request){
+        $email_arr = $request['emails']; 
+        $emailInpitEventAttributes=array_keys($request->emailInputEvent);
+        $time= strtotime(Carbon::now());
+        $event = new EmailInputEvents;
+        foreach($emailInpitEventAttributes as $item ){
+            $event->$item=$request->emailInputEvent[$item];
+        }
+        $event->input_time= $time;
+        $event->save();
+        foreach($email_arr as $email)
+        {
+            $coldEmails = new ColdEmails;
+            $coldEmails->email=$email;
+            $coldEmails->email_event_id=$event->id;
+            $coldEmails->save();
+        }
+        return response()->json(['message' => 'successful'], 200);
+    }
+
+
 
 }
