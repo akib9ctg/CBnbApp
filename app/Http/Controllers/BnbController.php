@@ -9,6 +9,8 @@ use App\Models\Tags;
 use App\Models\PropertiesTags;
 use App\Models\ColdEmails;
 use App\Models\EmailInputEvents;
+use App\Models\PropertyDocuments;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use DB;
 use Carbon\Carbon;
@@ -96,6 +98,10 @@ class BnbController extends Controller
                 $propertiesTag->save();
             }
         }
+        if($request->document !=null){
+            uploadDocuments($request,$property_id);
+        }
+        
         
         return response()->json(['message' => 'successful'], 200);
     }
@@ -132,7 +138,18 @@ class BnbController extends Controller
         }
         return response()->json(['message' => 'successful'], 200);
     }
-
-
+    public function uploadDocuments(Request $request,$property_id)    {
+  
+        //$documentName = time().'.'.$request->document->extension();  
+     
+        $path = Storage::disk('s3')->put('documents', $request->document);
+        $path = Storage::disk('s3')->url($path);
+  
+        /* Store $imageName name in DATABASE from HERE */
+        $propertyDocument=new PropertyDocuments;
+        $propertyDocument->property_id=$property_id;
+        $propertyDocument->document_url=$path;
+        $propertyDocument->save();
+    }
 
 }
