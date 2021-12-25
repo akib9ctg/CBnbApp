@@ -50,21 +50,27 @@ class BnbController extends Controller
         
         $property= Properties::where('property_id',$request->property['property_id'])->where('status','unsorted')->first();
         if(is_null($property)){
-            return response()->json(['message' => 'unsuccessful'], 410);
+            $property = new Properties;
         }
         foreach($propertyAttributes as $item){
-            $tempPropertyItem=$request->property[$item];
-            if($tempPropertyItem==""){
-                $tempPropertyItem=null;
+            if($item!='property_id'){
+                $tempPropertyItem=$request->property[$item];
+                if($tempPropertyItem==""){
+                    $tempPropertyItem=null;
+                }
+                $property->$item =$tempPropertyItem;
+    
             }
-            $property->$item =$tempPropertyItem;
         }
         $property->save();
+        $property_id=$property->property_id;
 
         $event = new Events;
         foreach($eventAttributes as $item ){
             $event->$item=$request->events[$item];
         }
+        
+        $event->property_id=$property_id;
         $event->datetime= strtotime(Carbon::now());
         $event->save();
 
