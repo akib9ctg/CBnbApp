@@ -44,7 +44,6 @@ class BnbController extends Controller
     //This is a common Endpoint, Data will insert based on the Client Object.
     public function operationFromApp(Request $request)
     {
-        return $request;
         $propertyAttributes = array_keys($request->property);
         $eventAttributes=array_keys($request->events);
         $property_id=$request->property['property_id'];
@@ -104,13 +103,8 @@ class BnbController extends Controller
                 $propertiesTag->tag_id=$tagArray[$index]['id'];
                 $propertiesTag->save();
             }
-        }
-        if($request->document !=null){
-            uploadDocuments($request,$property_id);
-        }
-        
-        
-        return response()->json(['message' => 'successful'], 200);
+        }        
+        return response()->json(['message' => 'successful','property_id'=>$property->property_id], 200);
     }
     
     public function getTagByPropertyId($property_id){
@@ -145,19 +139,18 @@ class BnbController extends Controller
         }
         return response()->json(['message' => 'successful'], 200);
     }
-    public function uploadDocuments(Request $request,$property_id)    {
+    public function uploadDocuments(Request $request)    {
   
         //$documentName = time().'.'.$request->document->extension();  
-     
         $path = Storage::disk('s3')->put('documents', $request->document);
         $path = Storage::disk('s3')->url($path);
   
         /* Store $imageName name in DATABASE from HERE */
         $propertyDocument=new PropertyDocuments;
-        $propertyDocument->property_id=$property_id;
+        $propertyDocument->property_id=$request->property_id;
         $propertyDocument->document_url=$path;
         $propertyDocument->save();
-        return $path;
+        return response()->json(['result'=>$path],200);
     }
 
 }
