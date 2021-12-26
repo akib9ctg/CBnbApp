@@ -23,7 +23,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     
     $router->post('bnb/operationFromApp',  ['uses' => 'BnbController@operationFromApp']);
     $router->post('bnb/saveEmails',  ['uses' => 'BnbController@saveEmails']);
-    //$router->post('bnb/uploadDocuments',  ['uses' => 'bnbController@uploadDocuments']);
+    $router->post('bnb/uploadDocuments',  ['uses' => 'BnbController@uploadDocuments']);
     $router->get('bnb/getAllTags',  ['uses' => 'BnbController@getAllTags']);
     
     $router->post('user/addNewUser',  ['uses' => 'UserController@addNewUser']);

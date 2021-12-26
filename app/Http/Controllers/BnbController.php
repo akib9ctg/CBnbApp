@@ -44,11 +44,12 @@ class BnbController extends Controller
     //This is a common Endpoint, Data will insert based on the Client Object.
     public function operationFromApp(Request $request)
     {
+        return $request;
         $propertyAttributes = array_keys($request->property);
         $eventAttributes=array_keys($request->events);
         $property_id=$request->property['property_id'];
         
-        $property= Properties::where('property_id',$request->property['property_id'])->where('status','unsorted')->first();
+        $property= Properties::where('property_id',$request->property['property_id'])->first();
         if(is_null($property)){
             $property = new Properties;
         }
@@ -156,6 +157,7 @@ class BnbController extends Controller
         $propertyDocument->property_id=$property_id;
         $propertyDocument->document_url=$path;
         $propertyDocument->save();
+        return $path;
     }
 
 }
