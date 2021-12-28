@@ -37,7 +37,7 @@ class BnbController extends Controller
      public function getAllPropertyByAddress(Request $request)
      {
         $property_address=$request['property_address'];
-        $result=DB::select("select property_id,address_line from properties where address_line like '%".$property_address."%' LIMIT 10");
+        $result=DB::select("select property_id,address_line from properties where status in ('conditionally_accepted','accepted') and address_line like '%".$property_address."%' LIMIT 10");
         return response()->json($result);
      }
 
